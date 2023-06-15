@@ -26,6 +26,7 @@ $(EXE):$(OFILES);$(PRECMD) $(LD) -o$@ $^ $(LDPOST)
 
 clean:;rm -rf $(MIDDIR) $(OUTDIR)
 
-run:$(EXE);$(EXE) ~/rom/atari7800/DARKCHAM.A78
+#run:$(EXE);$(EXE) ~/rom/atari7800/DARKCHAM.A78
 #run:$(EXE);$(EXE) ~/rom/atari7800/CENTIPED.A78
-#run:$(EXE);$(EXE) ~/rom/atari7800/DKONG.A78
+run:$(EXE);$(EXE) ~/rom/atari7800/DKONG.A78
+#run:$(EXE);$(EXE) ~/rom/atari7800/ballblaz.a78

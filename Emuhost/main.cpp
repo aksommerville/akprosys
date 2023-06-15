@@ -51,9 +51,10 @@ static int _akps_update(void *userdata) {
   // TODO I'm sure we can do better for audio. This is a stab in the dark.
   const uint8_t *pcmsrc;
   int pcmsrcc;
-  if (pokey_size) {
-    pcmsrc=tia_buffer;
-    pcmsrcc=tia_size;
+  // TODO ballblazer uses pokey_buffer and donkey kong uses tia_buffer. How can we tell the difference? It's not pokey_size
+  if (cartridge_pokey) {
+    pcmsrc=pokey_buffer;
+    pcmsrcc=pokey_size;
   } else {
     pcmsrc=tia_buffer;
     pcmsrcc=tia_size;

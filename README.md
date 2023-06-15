@@ -8,3 +8,16 @@ http://gstanton.github.io/ProSystem1_3/
 
 By AK Sommerville, beginning 2023-06-14.
 Planning to drop the Windows code, arrange to build with make, onboard my 'emuhost' platform layer.
+
+## TODO
+
+- [ ] Can we emulate the zapper? eg barnyard.a78
+- [ ] Faulty ROMs? Or some feature we're not emulating?
+- - bsktbrwl.a78: black screen
+- - F14.bin: black screen
+- - F18.A78: freeze after mission briefing
+- - fatal_run: black screen after intro splash
+- - fight_night.a78: render problem. some tiles missing from the boxers
+- - ikariwar.a78: Similar to fight_night, sprites missing
+- - rescue.a78: Weird render problems, big orange box. no audio
+- - xenophobe.a78: Intro splash appears but unresponsive
