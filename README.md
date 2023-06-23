@@ -16,11 +16,11 @@ Planning to drop the Windows code, arrange to build with make, onboard my 'emuho
 
 - [ ] Can we emulate the zapper? eg barnyard.a78
 - [ ] Faulty ROMs? Or some feature we're not emulating?
-- -     bsktbrwl.a78: black screen
 - -     F14.bin: black screen
 - -     F18.A78: freeze after mission briefing
-- -     fatal_run: black screen after intro splash
-- -     fight_night.a78: render problem. some tiles missing from the boxers
-- - XXX ikariwar.a78: Similar to fight_night, sprites missing
 - -     rescue.a78: Weird render problems, big orange box. no audio
-- - XXX xenophobe.a78: Intro splash appears but unresponsive
+- -     kung-fu-master.a78: Works, but colors all screwy
+- -     mia.a78: Works, but sprites flicker. The first bad guy gets two different images, can't be right.
+- -     Pitfight.a78: black screen
+- -     double-dragon.a78: black screen
+- -     rampage.a78: black screen
