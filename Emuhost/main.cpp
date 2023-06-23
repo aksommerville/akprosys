@@ -48,10 +48,8 @@ static int _akps_update(void *userdata) {
   prosystem_ExecuteFrame(input_state);
   eh_hi_color_table(palette_data);//TODO This shouldn't be necessary every frame, should it?
   
-  // TODO I'm sure we can do better for audio. This is a stab in the dark.
   const uint8_t *pcmsrc;
   int pcmsrcc;
-  // TODO ballblazer uses pokey_buffer and donkey kong uses tia_buffer. How can we tell the difference? It's not pokey_size
   if (cartridge_pokey) {
     pcmsrc=pokey_buffer;
     pcmsrcc=pokey_size;
@@ -61,9 +59,12 @@ static int _akps_update(void *userdata) {
   }
   int16_t *pcmdst=pcm;
   int i=pcmsrcc;
+  //uint8_t lo=*pcmsrc,hi=*pcmsrc;
   for (;i-->0;pcmsrc++,pcmdst++) {
     *pcmdst=(*pcmsrc)<<7;
+    //if (*pcmsrc<lo) lo=*pcmsrc; else if (*pcmsrc>hi) hi=*pcmsrc;
   }
+  //fprintf(stderr,"%02x..%02x\n",lo,hi);
   
   return eh_hi_frame(maria_surface,pcm,pcmsrcc);
 }
@@ -124,13 +125,8 @@ static int _akps_reset(void *userdata,const char *path) {
 
 int main(int argc,char **argv) {
   
-  if (bios_Load("/home/andy/rom/atari7800/7800.rom")) {//TODO path
-    fprintf(stderr,"Loaded BIOS\n");
-  } else {
-    fprintf(stderr,"Failed to load BIOS\n");
-  }
-  
   prosystem_Reset();
+  /*
   #define LOGVAR(k) fprintf(stderr,"%s: %d\n",#k,k);
   LOGVAR(prosystem_active)
   LOGVAR(prosystem_paused)
@@ -139,13 +135,14 @@ int main(int argc,char **argv) {
   LOGVAR(prosystem_scanlines)
   LOGVAR(prosystem_cycles)
   #undef LOGVAR
+  /**/
   
   struct eh_hi_delegate delegate={
     .video_rate=prosystem_frequency,
     .video_width=320,
     .video_height=prosystem_scanlines,
     .video_format=EH_VIDEO_FORMAT_I8,
-    .audio_rate=31300, // TODO This is probably not right, find the real number
+    .audio_rate=31440,
     .audio_chanc=1,
     .audio_format=EH_AUDIO_FORMAT_S16,
     .playerc=2,

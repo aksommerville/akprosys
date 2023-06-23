@@ -48,6 +48,7 @@ void prosystem_Reset( ) {
     maria_Clear( );
     maria_Reset( );
 	riot_Reset ( );
+    sally_Reset(); // aks: This wasn't here. But shouldn't we be resetting Sally too?
     if(bios_enabled) {
       bios_Store( );
     }

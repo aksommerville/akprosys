@@ -37,7 +37,7 @@ static pair maria_dp;
 static pair maria_pp;
 static byte maria_horizontal;
 static byte maria_palette;
-static char maria_offset;
+static signed char maria_offset;
 static byte maria_h08;
 static byte maria_h16;
 static byte maria_wmode;
@@ -204,7 +204,7 @@ static void maria_StoreLineRAM( ) {
     maria_pp.b.l = memory_ram[maria_dp.w];
     maria_pp.b.h = memory_ram[maria_dp.w + 2];
     
-    if(mode & 31) { 
+    if(mode & 31) {
       maria_cycles += 8;
       maria_palette = (memory_ram[maria_dp.w + 1] & 224) >> 3;
       maria_horizontal = memory_ram[maria_dp.w + 3];

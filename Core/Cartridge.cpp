@@ -94,7 +94,7 @@ static void cartridge_ReadHeader(const byte* header) {
   }
   cartridge_title = temp;
   
-  cartridge_size  = header[49] << 24; // aks: Was originally "<< 32", assume that's an error
+  cartridge_size  = header[49] << 24; // aks: Was originally "<< 32", assume that's an error. but i'm guessing there aren't a lot of 16 MB carts so no big deal.
   cartridge_size |= header[50] << 16;
   cartridge_size |= header[51] << 8;
   cartridge_size |= header[52];
@@ -233,6 +233,7 @@ void cartridge_Store( ) {
     case CARTRIDGE_TYPE_SUPERCART:
       if(cartridge_GetBankOffset(7) < cartridge_size) {
         memory_WriteROM(49152, 16384, cartridge_buffer + cartridge_GetBankOffset(7));
+        memory_WriteROM(16384, 16384, cartridge_buffer + cartridge_GetBankOffset(6)); // aks: This was missing. Adding it fixes ikariwar.a78 and xenophobe.a78
       }
       break;
     case CARTRIDGE_TYPE_SUPERCART_LARGE:

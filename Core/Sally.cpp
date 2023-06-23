@@ -116,7 +116,7 @@ static void sally_Flags(byte data) {
 static void sally_Branch(byte branch) {
   if(branch) {
     pair temp = sally_pc;
-    sally_pc.w += (char)sally_address.b.l;
+    sally_pc.w += (signed char)sally_address.b.l;
        
     if(temp.b.h != sally_pc.b.h) {
       sally_cycles += 2;
