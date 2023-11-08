@@ -112,6 +112,9 @@ static void cartridge_ReadHeader(const byte* header) {
     else if(header[54] == 8 || header[54] == 9 || header[54] == 10 || header[54] == 11) {
       cartridge_type = CARTRIDGE_TYPE_SUPERCART_ROM;
     }
+    else if(header[54] == 18) { // aks: pitfighter.a78. No idea if this is the right type, but it does boot now.
+      cartridge_type = CARTRIDGE_TYPE_SUPERCART_RAM;
+    }
     else {
       cartridge_type = CARTRIDGE_TYPE_NORMAL;
     }
@@ -228,37 +231,47 @@ bool cartridge_Load(std::string filename) {
 void cartridge_Store( ) {
   switch(cartridge_type) {
     case CARTRIDGE_TYPE_NORMAL:
-      memory_WriteROM(65536 - cartridge_size, cartridge_size, cartridge_buffer);
+      fprintf(stderr,"%s NORMAL cartridge_size=%d\n",__func__,cartridge_size);
+      if (cartridge_size<=65536) {
+        memory_WriteROM(65536 - cartridge_size, cartridge_size, cartridge_buffer);
+      }
       break;
     case CARTRIDGE_TYPE_SUPERCART:
+      fprintf(stderr,"%s SUPERCART cartridge_size=%d bank7=%d\n",__func__,cartridge_size,cartridge_GetBankOffset(7));
       if(cartridge_GetBankOffset(7) < cartridge_size) {
         memory_WriteROM(49152, 16384, cartridge_buffer + cartridge_GetBankOffset(7));
         memory_WriteROM(16384, 16384, cartridge_buffer + cartridge_GetBankOffset(6)); // aks: This was missing. Adding it fixes ikariwar.a78 and xenophobe.a78
       }
       break;
     case CARTRIDGE_TYPE_SUPERCART_LARGE:
+      // mia.a78
+      fprintf(stderr,"%s SUPERCART_LARGE\n",__func__);
       if(cartridge_GetBankOffset(8) < cartridge_size) {
         memory_WriteROM(49152, 16384, cartridge_buffer + cartridge_GetBankOffset(8));
         memory_WriteROM(16384, 16384, cartridge_buffer + cartridge_GetBankOffset(0));
       }
       break;
     case CARTRIDGE_TYPE_SUPERCART_RAM:
+      fprintf(stderr,"%s SUPERCART_RAM\n",__func__);
       if(cartridge_GetBankOffset(7) < cartridge_size) {
         memory_WriteROM(49152, 16384, cartridge_buffer + cartridge_GetBankOffset(7));
         memory_ClearROM(16384, 16384);
       }
       break;
     case CARTRIDGE_TYPE_SUPERCART_ROM:
+      fprintf(stderr,"%s SUPRCART_ROM\n",__func__);
       if(cartridge_GetBankOffset(7) < cartridge_size && cartridge_GetBankOffset(6) < cartridge_size) {
         memory_WriteROM(49152, 16384, cartridge_buffer + cartridge_GetBankOffset(7));
         memory_WriteROM(16384, 16384, cartridge_buffer + cartridge_GetBankOffset(6));
       }
       break;
     case CARTRIDGE_TYPE_ABSOLUTE:
+      fprintf(stderr,"%s ABSOLUTE\n",__func__);
       memory_WriteROM(16384, 16384, cartridge_buffer);
       memory_WriteROM(32768, 32768, cartridge_buffer + cartridge_GetBankOffset(2));
       break;
     case CARTRIDGE_TYPE_ACTIVISION:
+      fprintf(stderr,"%s ACTIVISION\n",__func__);
       if(122880 < cartridge_size) {
         memory_WriteROM(40960, 16384, cartridge_buffer);
         memory_WriteROM(16384, 8192, cartridge_buffer + 106496);

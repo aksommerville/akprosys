@@ -24,3 +24,14 @@ Planning to drop the Windows code, arrange to build with make, onboard my 'emuho
 - -     Pitfight.a78: black screen
 - -     double-dragon.a78: black screen
 - -     rampage.a78: black screen
+
+F14.bin: maybe just missing the 128-byte header?
+00000000  01 41 54 41 52 49 37 38  30 30 20 20 20 20 20 20  |.ATARI7800      |
+00000010  20 54 55 42 45 53 20 32  30 30 34 2d 31 30 2d 33  | TUBES 2004-10-3|
+00000020  31 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |1...............|
+00000030  00 00 00 40 00 00 00 01  01 00 ff ff ff ff ff ff  |...@............|
+00000040  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00000050  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+00000060  ff ff ff ff 41 43 54 55  41 4c 20 43 41 52 54 20  |....ACTUAL CART |
+00000070  44 41 54 41 20 53 54 41  52 54 53 20 48 45 52 45  |DATA STARTS HERE|
+
