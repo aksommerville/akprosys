@@ -56,7 +56,7 @@ static void akps_update_input() {
   }
   akps_update_input_player(0,p1);
   akps_update_input_player(6,p2);
-  input_state[12]=p1&EH_BTN_R1; // Reset
+  input_state[12]=p1&EH_BTN_EAST; // Reset
   input_state[13]=p1&EH_BTN_AUX2; // Select
   input_state[14]=p1&EH_BTN_L1; // Pause
   input_state[15]=ldiff;

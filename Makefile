@@ -7,10 +7,12 @@ SRCDIRS:=Core Emuhost
 MIDDIR:=mid
 OUTDIR:=out
 
+LIBEMUHOST:=../ra3/out/libemuhost.a 
+
 CC:=gcc -c -MMD -O3 $(addprefix -I,$(SRCDIRS)) -I../ra3/out/include
 CXX:=g++ -c -MMD -O3 $(addprefix -I,$(SRCDIRS)) -I../ra3/out/include
 LD:=g++
-LDPOST:=../ra3/out/libemuhost.a -lz -lX11 -lGL -ldrm -lgbm -lEGL -lpulse-simple -lasound
+LDPOST:=$(LIBEMUHOST) -lz -lX11 -lXinerama -lGL -ldrm -lgbm -lEGL -lpulse-simple -lasound
 
 SRCFILES:=$(shell find $(SRCDIRS) -type f)
 CFILES:=$(filter %.c %.cpp,$(SRCFILES))
@@ -22,7 +24,7 @@ $(MIDDIR)/%.o:%.cpp;$(PRECMD) $(CXX) -o$@ $<
 
 EXE:=$(OUTDIR)/akprosys
 all:$(EXE)
-$(EXE):$(OFILES);$(PRECMD) $(LD) -o$@ $^ $(LDPOST)
+$(EXE):$(OFILES) $(LIBEMUHOST);$(PRECMD) $(LD) -o$@ $^ $(LDPOST)
 
 clean:;rm -rf $(MIDDIR) $(OUTDIR)
 
