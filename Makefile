@@ -7,12 +7,16 @@ SRCDIRS:=Core Emuhost
 MIDDIR:=mid
 OUTDIR:=out
 
-LIBEMUHOST:=../ra3/out/libemuhost.a 
+EHCFG:=../ra3/out/emuhost-config
+EH_CFLAGS:=$(shell $(EHCFG) --cflags)
+EH_LDFLAGS:=$(shell $(EHCFG) --ldflags)
+EH_LIBS:=$(shell $(EHCFG) --libs)
+EH_DEPS:=$(shell $(EHCFG) --deps)
 
-CC:=gcc -c -MMD -O3 $(addprefix -I,$(SRCDIRS)) -I../ra3/out/include
-CXX:=g++ -c -MMD -O3 $(addprefix -I,$(SRCDIRS)) -I../ra3/out/include
-LD:=g++
-LDPOST:=$(LIBEMUHOST) -lz -lX11 -lXinerama -lGL -ldrm -lgbm -lEGL -lpulse-simple -lasound
+CC:=gcc -c -MMD -O3 $(addprefix -I,$(SRCDIRS)) $(EH_CFLAGS)
+CXX:=g++ -c -MMD -O3 $(addprefix -I,$(SRCDIRS)) $(EH_CFLAGS)
+LD:=g++ $(EH_LDFLAGS)
+LDPOST:=$(EH_LIBS)
 
 SRCFILES:=$(shell find $(SRCDIRS) -type f)
 CFILES:=$(filter %.c %.cpp,$(SRCFILES))
@@ -24,7 +28,7 @@ $(MIDDIR)/%.o:%.cpp;$(PRECMD) $(CXX) -o$@ $<
 
 EXE:=$(OUTDIR)/akprosys
 all:$(EXE)
-$(EXE):$(OFILES) $(LIBEMUHOST);$(PRECMD) $(LD) -o$@ $^ $(LDPOST)
+$(EXE):$(OFILES) $(EH_DEPS);$(PRECMD) $(LD) -o$@ $(OFILES) $(LDPOST)
 
 clean:;rm -rf $(MIDDIR) $(OUTDIR)
 
